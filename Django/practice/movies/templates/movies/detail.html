@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+
+<h1>Movie Detail</h1>
+
+<p>PK: {{ movie.pk }} </p>
+<p>제목: {{ movie.title }}</p>
+<p>영어 제목: {{ movie.title_en }}</p>
+<p>관객 수: {{ movie.audience }}</p>
+<p>개봉일: {{ movie.open_date }}</p>
+<p>상영 등급: {{ movie.watch_grade }}</p>
+<p>평점: {{ movie.score }}</p>
+<p>영화 포스터: {{ movie.poster_url }}</p>
+<p>개요: {{ movie.description }}</p>
+
+
+
+{% endblock %}
