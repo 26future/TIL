@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+if {{ number }} == {{ number2 }}:
+    <h1>이름: {{ name }}</h1>
+    <h1>전화번호: {{ number }}</h1>
+
+    <a href="{% url 'visitors_data:qr' %}">확인</a>
+
+else:
+    
+
+
+
+{% endblock %}
