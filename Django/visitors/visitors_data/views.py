@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Visitor
 import qrcode
+from .forms import VisitorForm
 
 
 # Create your views here.
@@ -11,22 +12,32 @@ def home(request):
     }
     return render(request, 'visitors_data/home.html', context)
 
+# def create(request):
+#     if request.method == 'POST':
+#         form = ArticleForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#     else:
+#         form = ArticleForm()
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'articles/form.html', context)
 
 def citizen(request): # POST
-    # if request.method == 'POST':
-    #     name = request.POST.get('name')
-    #     number = request.POST.get('number')
-
-    #     visitor = Visitor(name=name, number=number)
-    #     visitor.save()
-    
-    #     return redirect('visitors_data:detail', visitor.pk)
-
-    # else:
+    if request.method == 'POST':
+        form = VisitorForm(request.POST)
+        if form.is_valid():
+            # visitor = form.save()
+            form.save()
+        return redirect('visitors_data:home')
+    else:
+        form = VisitorForm()
     context = {
-
+        'form': form,
     }
     return render(request, 'visitors_data/citizen.html', context)
+
 
 def foreigner(request): # POST
     # if request.method == 'POST':
@@ -44,14 +55,14 @@ def foreigner(request): # POST
     }
     return render(request, 'visitors_data/foreigner.html', context)
 
-def confirm(request):
-    name = request.GET.get('name')
-    number = request.GET.get('number')
-
+def confirm(request, pk):
+    visitor = Visitor.objects.get(pk=pk)
     context = {
-        'name': name,
-        'number': number,
+        'visitor': visitor,
+
     }
+    
+   
     return render(request, 'visitors_data/confirm.html', context)
 
 def qr(request):
@@ -64,3 +75,11 @@ def qr(request):
 
 
     return render(request, 'visitors_data/qr.html')
+
+def read_qr(request):
+
+
+    context = {
+
+    }
+    return render(request, 'visitors_data/read_qr.html', context)

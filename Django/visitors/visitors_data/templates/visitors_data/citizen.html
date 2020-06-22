@@ -5,21 +5,11 @@
 
 <h1>새로운 방문자</h1>
 
-<form action="{% url 'visitors_data:confirm' %}" method="GET">
-    <label for="name">이름</label>
-    <input id="name" type="text" name="name">
-    <label for="number">전화번호</label>
-    <input id="number" type="int" name="number">
-    <label for="number">전화번호 확인</label>
-    <input type="int" name="number2">
-
-    <label for="sex">성별</label>
-    <label for="female">여</label>
-    <input id='female' type="checkbox">
-    <label for="male">남</label>
-    <input id='male' type="checkbox">
-    
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
     <input type="submit" value="완료">
+    
 </form>
 
 

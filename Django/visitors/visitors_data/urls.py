@@ -8,7 +8,8 @@ urlpatterns = [
     path('citizen/', views.citizen, name='citizen'),
     path('foreigner/', views.foreigner, name='foreigner'),
     # path('new/', views.new, name='new'),
-    path('confirm/', views.confirm, name='confirm'),
+    path('confirm/<int:pk>/', views.confirm, name='confirm'),
     path('qr/', views.qr, name='qr'),
+    path('read_qr/', views.read_qr, name='read_qr'),
 
 ]
