@@ -29,14 +29,11 @@ class VisitorForm(forms.ModelForm):
             'sex': '성별',
         }
     
-    def clean(self, *args, **kwargs):
+    def clean(self):
         number = self.cleaned_data.get('number')
         number2 = self.cleaned_data.get('number2')
-        print(number)
-        print(number2)
-    
+        
         if number != number2:
-            print('----------')
             msg = '전화번호를 다시 확인해주세요'
             raise ValidationError(msg)
         

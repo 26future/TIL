@@ -30,7 +30,7 @@ def citizen(request): # POST
         if form.is_valid():
             # visitor = form.save()
             form.save()
-        return redirect('visitors_data:home')
+            return redirect('visitors_data:home')
     else:
         form = VisitorForm()
     context = {
@@ -38,6 +38,7 @@ def citizen(request): # POST
     }
     return render(request, 'visitors_data/citizen.html', context)
 
+## https://docs.djangoproject.com/en/3.0/ref/contrib/messages/    => error message custom
 
 def foreigner(request): # POST
     # if request.method == 'POST':
