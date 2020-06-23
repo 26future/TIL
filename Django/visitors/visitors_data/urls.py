@@ -9,7 +9,7 @@ urlpatterns = [
     path('foreigner/', views.foreigner, name='foreigner'),
     # path('new/', views.new, name='new'),
     path('confirm/<int:pk>/', views.confirm, name='confirm'),
-    path('qr/', views.qr, name='qr'),
+    path('qr/<int:pk>/', views.qr, name='qr'),
     path('read_qr/', views.read_qr, name='read_qr'),
 
 ]

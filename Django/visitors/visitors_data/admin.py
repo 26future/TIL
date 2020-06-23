@@ -4,6 +4,6 @@ from .models import Visitor
 # Register your models here.
 
 class VisitorAdmin(admin.ModelAdmin):
-    list_display = ['name', 'number', 'number2', 'sex', 'date']
+    list_display = ['name', 'number', 'number2', 'sex', 'date', 'pk']
 
 admin.site.register(Visitor, VisitorAdmin)

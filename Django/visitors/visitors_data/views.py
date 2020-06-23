@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Visitor
 import qrcode
 from .forms import VisitorForm
-
+import cv2
 
 # Create your views here.
 
@@ -29,8 +29,8 @@ def citizen(request): # POST
         form = VisitorForm(request.POST)
         if form.is_valid():
             # visitor = form.save()
-            form.save()
-            return redirect('visitors_data:home')
+            visitor = form.save()
+            return redirect('visitors_data:confirm', visitor.pk)
     else:
         form = VisitorForm()
     context = {
@@ -66,21 +66,37 @@ def confirm(request, pk):
    
     return render(request, 'visitors_data/confirm.html', context)
 
-def qr(request):
+def qr(request, pk):
+    visitor = Visitor.objects.get(pk=pk)
     qr = qrcode.QRCode(version=2, error_correction=qrcode.constants.ERROR_CORRECT_H)
-    url = 'www.naver.com'
-    qr.add_data(url)
+    info = visitor.name + '/' + visitor.number + '/' + visitor.sex
+    qr.add_data(info)
     qr.make
     img = qr.make_image(fill_color='black', back_color='white')
-    img.save('naver_qrcode_sample.png')
+    img.save(str(visitor.pk)+'_qrcode.png')
 
 
     return render(request, 'visitors_data/qr.html')
 
-def read_qr(request):
+# def read_qr(request, pk):
+#     img = cv2.imread('hong_qrcode.png')
+#     detector = cv2.QRCodeDetector()
+#     data, bbox, straight_qrcode = detector.detectAndDecode(img)
+    
+#     if bbox is not None:
+#     print(f"QRCode data:\n{data}")
+#     # display the image with lines
+#     # length of bounding box
+#     n_lines = len(bbox)
+#     for i in range(n_lines):
+#         # draw all lines
+#         point1 = tuple(bbox[i][0])
+#         point2 = tuple(bbox[(i+1) % n_lines][0])
+#         cv2.line(img, point1, point2, color=(255, 0, 0), thickness=2)
 
 
-    context = {
 
-    }
-    return render(request, 'visitors_data/read_qr.html', context)
+#     context = {
+
+#     }
+#     return render(request, 'visitors_data/read_qr.html', context)
