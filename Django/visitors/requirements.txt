@@ -1,5 +1,5 @@
 colorama==0.4.3
-Django==2.1.5
+Django==2.2.13
 labelImg==1.8.3
 lxml==4.5.1
 numpy==1.19.0
