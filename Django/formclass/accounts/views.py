@@ -45,7 +45,13 @@ def login(request):
             user = form.get_user()
             auth_login(request, user)
             # 4. 로그인 결과 확인이 가능한 페이지로 안내
-            return redirect('articles:index')
+            # /articles/new/
+            return redirect(request.GET.get('next') or 'articles:index')
+            # 단축 평가
+            # and -> False and True #=> False
+            # or -> True or False #=> True
+            # a -> '' or 'apple' #=> apple
+            # b -> 'banana' or '' #=> banana
     else:
         # User 로그인 창 보여주기
         form = AuthenticationForm()
