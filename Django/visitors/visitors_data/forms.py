@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 class VisitorForm(forms.ModelForm):
     class Meta:
         model = Visitor
-        fields = ('name', 'number', 'number2', 'sex')
+        fields = ('name', 'number', 'number2',)
         widgets = {'name': forms.TextInput(
                         attrs={
                             'placeholder': '홍길동',
@@ -18,15 +18,11 @@ class VisitorForm(forms.ModelForm):
                         attrs={
                             'placeholder': '01012345678',
                         }),
-                    'sex': forms.RadioSelect(
-                        choices=(('여', '여'), ('남', '남'),)
-                    )
         }
         labels = {
             'name': '이름',
             'number': '전화번호',
             'number2': '전화번호 확인',
-            'sex': '성별',
         }
     
     def clean(self):

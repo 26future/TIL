@@ -3,6 +3,7 @@ from .models import Visitor
 import qrcode
 from .forms import VisitorForm
 import cv2
+import re
 
 # Create your views here.
 
@@ -69,34 +70,33 @@ def confirm(request, pk):
 def qr(request, pk):
     visitor = Visitor.objects.get(pk=pk)
     qr = qrcode.QRCode(version=2, error_correction=qrcode.constants.ERROR_CORRECT_H)
-    info = visitor.name + '/' + visitor.number + '/' + visitor.sex
+    info = visitor.name + '/' + visitor.number + '/' + 'PK:' + str(visitor.pk)
     qr.add_data(info)
     qr.make
     img = qr.make_image(fill_color='black', back_color='white')
-    img.save(str(visitor.pk)+'_qrcode.png')
-
+    img.save('./static/images/qrcode.png', format='PNG')
 
     return render(request, 'visitors_data/qr.html')
 
-# def read_qr(request, pk):
-#     img = cv2.imread('hong_qrcode.png')
-#     detector = cv2.QRCodeDetector()
-#     data, bbox, straight_qrcode = detector.detectAndDecode(img)
-    
-#     if bbox is not None:
-#     print(f"QRCode data:\n{data}")
-#     # display the image with lines
-#     # length of bounding box
-#     n_lines = len(bbox)
-#     for i in range(n_lines):
-#         # draw all lines
-#         point1 = tuple(bbox[i][0])
-#         point2 = tuple(bbox[(i+1) % n_lines][0])
-#         cv2.line(img, point1, point2, color=(255, 0, 0), thickness=2)
+def read_qr(request):
 
+    img = cv2.imread('./static/images/qrcode.png')
+    detector = cv2.QRCodeDetector()
+    data, bbox, straight_qrcode = detector.detectAndDecode(img)
 
+    # PK 추출
+    p = re.compile("P+K+[:]+[0-9]+")
+    pk_number = p.findall(data)[0]
 
-#     context = {
+    p1 = re.compile("[0-9]+")
+    current_pk = p1.findall(pk_number)[0]
 
-#     }
-#     return render(request, 'visitors_data/read_qr.html', context)
+    # DB 수정 (check='TRUE')
+    visitor = Visitor.objects.get(pk=current_pk)
+    visitor.check = "TRUE"
+    visitor.save()
+
+    context = {
+
+    }
+    return render(request, 'visitors_data/read_qr.html', context)
