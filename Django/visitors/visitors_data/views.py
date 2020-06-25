@@ -84,24 +84,7 @@ def read_qr(request):
     detector = cv2.QRCodeDetector()
     data, bbox, straight_qrcode = detector.detectAndDecode(img)
 
-    # PK 추출
-    p = re.compile("P+K+[:]+[0-9]+")
-    pk_number = p.findall(data)[0]
-
-    p1 = re.compile("[0-9]+")
-    current_pk = p1.findall(pk_number)[0]
-
-    # DB 수정 (check='TRUE')
-    visitor = Visitor.objects.get(pk=current_pk)
-    visitor.check = "TRUE"
-    visitor.save()
-
-    context = {
-
-    }
-    return render(request, 'visitors_data/read_qr.html', context)
-
-
+    
     # video
 
     # import cv2
@@ -127,3 +110,21 @@ def read_qr(request):
     #         break
     # cap.release()
     # cv2.destroyAllWindows()
+
+    # PK 추출
+    p = re.compile("P+K+[:]+[0-9]+")
+    pk_number = p.findall(data)[0]
+
+    p1 = re.compile("[0-9]+")
+    current_pk = p1.findall(pk_number)[0]
+
+    # DB 수정 (check='TRUE')
+    visitor = Visitor.objects.get(pk=current_pk)
+    visitor.check = "TRUE"
+    visitor.save()
+
+    context = {
+
+    }
+    return render(request, 'visitors_data/read_qr.html', context)
+
